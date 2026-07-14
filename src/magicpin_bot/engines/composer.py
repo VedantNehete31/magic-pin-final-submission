@@ -344,6 +344,8 @@ class Composer:
     def _message(self, body: str, cta: str, send_as: str, trigger: dict[str, Any], template_name: str, rationale: str, lead: str) -> ComposedMessage:
         suppression = first_present(trigger.get("suppression_key"), value(trigger, "payload.suppression_key"), trigger.get("id"), default="unspecified")
         clean_body = body.replace("http://", "").replace("https://", "").strip()
+        if len(clean_body) > 315:
+            clean_body = clean_body[:315] + "..."
         return ComposedMessage(body=clean_body, cta=cta, send_as=send_as, suppression_key=str(suppression), rationale=rationale, template_name=template_name, template_params=template_params(clean_body, lead))
 
     def _segment_text(self, segment: Any, merchant: dict[str, Any]) -> str:
