@@ -1,0 +1,34 @@
+# Render Blueprint for Vedant Merchant Assist
+# https://docs.render.com/infrastructure-as-code
+
+services:
+  - type: web
+    name: vedant-merchant-assist
+    runtime: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn bot:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /v1/healthz
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: TEAM_NAME
+        value: "Vedant Merchant Assist"
+      - key: TEAM_MEMBERS
+        value: "Vedant Nehete"
+      - key: CONTACT_EMAIL
+        value: "nehetevedant9@gmail.com"
+      - key: BOT_VERSION
+        value: "1.0.0"
+      - key: BOT_MODEL
+        value: "vedant-deterministic-composer-v1"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: "gemini-2.5-flash"
+      - key: REDIS_URL
+        sync: false
